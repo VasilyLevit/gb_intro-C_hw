@@ -1,49 +1,42 @@
-/* Задача 5. Все счастливые числа
-Ввести натуральное число и напечатать все числа от 10 до введенного числа - у которых сумма цифр равна произведению цифр
-Данные на входе: Одно натуральное число большее 10
-Данные на выходе: Числа у которых сумма цифр равна произведению цифр через пробел в порядке возрастания. Не превосходящие введенное число.
-Пример №1
-Данные на входе: 200
-Данные на выходе: 22 123 132
-Пример №2
-Данные на входе: 1000
-Данные на выходе: 22 123 132 213 231 312 321
-Пример №3
-Данные на входе: 22
-Данные на выходе: 22 */
+/* Скобки
+Проверить строку состоящую из скобок "(" и ")" на корректность.
+Данные на входе: На вход подается строка состоящая из символов '(', ')' и заканчивающаяся символом '.'. Размер строки не более 1000 символов. 
+Данные на выходе: Необходимо напечатать слово YES если скобки расставлены верно и NO в противном случае.
+Пример No1
+Данные на входе: (()()). 
+Данные на выходе: YES
+Пример No2
+Данные на входе: ()(. 
+Данные на выходе: NO */
 
 #include<stdio.h>
 
-enum {BASE = 10};
+int count = 0;
+
+// checkng the correctness of brackets
+// count = 0 - correct
+// count > 0 - opening brackets > closing brackets
+// count < 0 in progress -  closing brackets > opening brackets
+int roundBrackets(char bracket)
+{ 
+    bracket == '(' ? count++ : count-- ;
+    // printf("%d\n", count);  // test
+    if (count < 0)  // closing brackets > opening brackets
+        return -1;  // there is no point in checking further
+    return count;    
+}
 
 int main(void)
 {
-    int inputNum, digit, sum, mult, currentNum;
-    
-    printf("Введите натуральное число больше 10: ");
-    scanf("%d", &inputNum);
-    
-    // избавляемся от минуса, если на вводе ввели отрицательное число
-    if(inputNum < 0)  
-        inputNum *= -1;
-
-    // пробегаем по диапазону от 10 до введённого числа
-    for (int n = 10; n <= inputNum; n++)
-    {
-        currentNum = n;
-        sum = 0;
-        mult = 1;
-        // проверка, счастливое ли число
-        while(currentNum != 0)
-        {            
-            digit = currentNum % BASE;
-            sum += digit;
-            mult *= digit;           
-            currentNum /= BASE;
-        }
-        if(sum == mult)
-                printf("%d\n", n);
-        
+    char simbol;
+    printf("Введите строку из круглых скобок: ");
+    while ((simbol = getchar()) != '.')
+    {       
+        if (simbol == '(' || simbol == ')')
+            // printf("%c\n", simbol); // test
+            if (roundBrackets(simbol) == -1)  // if closing brackets > opening brackets
+                break;
     }
+    printf("%s\n", count == 0 ? "YES" : "NO");
     return 0;
 }
