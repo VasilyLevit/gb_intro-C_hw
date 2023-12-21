@@ -1,42 +1,35 @@
-/* Скобки
-Проверить строку состоящую из скобок "(" и ")" на корректность.
-Данные на входе: На вход подается строка состоящая из символов '(', ')' и заканчивающаяся символом '.'. Размер строки не более 1000 символов. 
-Данные на выходе: Необходимо напечатать слово YES если скобки расставлены верно и NO в противном случае.
-Пример No1
-Данные на входе: (()()). 
-Данные на выходе: YES
-Пример No2
-Данные на входе: ()(. 
-Данные на выходе: NO */
+/* Задача 5. Сколько раз встречается символ a
+Дана строка из английских символов, пробелов и знаков препинания. В конце строки символ точка. Необходимо реализовать рекурсивную функцию, которая считывает данную строку со стандартного потока ввода и возвращает целое число - количество символов 'a' в данной строке.
+ int acounter(void)
+Используя данную функцию решить задачу.
+Данные на входе: Строка состоящая из английских букв, пробелов и знаков препинания.
+В конце строки символ '.' 
+Данные на выходе: Одно целое число.
+Пример No1 
+Данные на входе: abcd a.
+Данные на выходе: 2
+Пример No2 
+Данные на входе: Hello world.
+Данные на выходе: 0 */
 
 #include<stdio.h>
 
-int count = 0;
-
-// checkng the correctness of brackets
-// count = 0 - correct
-// count > 0 - opening brackets > closing brackets
-// count < 0 in progress -  closing brackets > opening brackets
-int roundBrackets(char bracket)
-{ 
-    bracket == '(' ? count++ : count-- ;
-    // printf("%d\n", count);  // test
-    if (count < 0)  // closing brackets > opening brackets
-        return -1;  // there is no point in checking further
-    return count;    
+// counting of simbol 'a' function 
+int acounter(void)
+{
+    char s;
+    static int res = 0;
+    scanf("%c", &s);
+    if(s == '.')  //условие выхода из рекурсии по символу '.'
+        return res;
+    if(s == 'a')
+        res++;
+    return acounter();
 }
 
 int main(void)
 {
-    char simbol;
-    printf("Введите строку из круглых скобок: ");
-    while ((simbol = getchar()) != '.')
-    {       
-        if (simbol == '(' || simbol == ')')
-            // printf("%c\n", simbol); // test
-            if (roundBrackets(simbol) == -1)  // if closing brackets > opening brackets
-                break;
-    }
-    printf("%s\n", count == 0 ? "YES" : "NO");
+    printf("Введите строку из английских символов, в конце симовол '.': ");
+    printf("%d\n", acounter());
     return 0;
 }
